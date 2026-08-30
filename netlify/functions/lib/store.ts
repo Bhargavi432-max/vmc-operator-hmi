@@ -5,7 +5,7 @@ const STORE_NAME = 'vmc-hmi'
 const KEY = 'session'
 
 export async function loadState(): Promise<HmiState> {
-  const store = getStore(STORE_NAME)
+  const store = getStore({ name: STORE_NAME, consistency: 'strong' })
   const existing = await store.get(KEY, { type: 'json' })
   if (existing) return existing as HmiState
   const fresh = defaultState()
@@ -14,7 +14,7 @@ export async function loadState(): Promise<HmiState> {
 }
 
 export async function saveState(state: HmiState): Promise<void> {
-  const store = getStore(STORE_NAME)
+  const store = getStore({ name: STORE_NAME, consistency: 'strong' })
   await store.setJSON(KEY, state)
 }
 
